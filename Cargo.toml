@@ -1,0 +1,33 @@
+[package]
+name = "bevy_macos_open_files"
+version = "0.18.0"
+edition = "2024"
+description = "Receive the files and URLs that macOS asks a Bevy app to open (Finder, Open With, the Dock, custom URL schemes) as Bevy messages."
+license = "MIT"
+repository = "https://github.com/rterheide/bevy_macos_open_files"
+keywords = ["bevy", "macos", "appkit", "finder", "open-with"]
+categories = ["game-development", "os::macos-apis"]
+
+[dependencies]
+bevy_app = "0.18"
+bevy_ecs = "0.18"
+bevy_log = "0.18"
+# For the event loop proxy that wakes the app up, and the version of winit that Bevy uses.
+bevy_winit = "0.18"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSApplication", "NSResponder"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSArray", "NSEnumerator", "NSURL", "NSString", "NSObject"] }
+
+[dev-dependencies]
+bevy = "0.18"
+# Reads the Info.plist templates in the README and the example, to test them.
+plist = "1"
+
+[lints.rust]
+unsafe_code = "deny"
+missing_docs = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
