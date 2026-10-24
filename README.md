@@ -163,9 +163,9 @@ Leave out `CFBundleDocumentTypes` if you only want URLs, and `CFBundleURLTypes` 
 After changing the `Info.plist`, macOS may need a nudge to notice it. Launching the app from its bundle once usually does it, or run
 `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f MyApp.app`.
 
-### Tools that make the bundle for you
+### Tools that make the .app bundle for you
 
-You do not have to write the bundle by hand. These exist, check their documentation for how they take the `Info.plist` settings
+There are tools for creating .app bundles, check their documentation for how they take the `Info.plist` settings
 (file associations and URL schemes) and which Bevy-specific things (an `assets` folder next to the binary) they copy:
 
 - [`cargo-bundle`](https://github.com/burtonageo/cargo-bundle) – builds `.app` bundles from `Cargo.toml` metadata.
@@ -190,10 +190,9 @@ Start the binary inside the bundle from a terminal to see what it prints, or loo
 
 ## Limitations
 
-- **Tied to one winit.** This adds a method to winit's private delegate class `WinitApplicationDelegate`, as it is in winit 0.30. A
-  release of this crate matches one Bevy version. If the class is not found, a warning is logged and the app works as before.
+- **Will be deprecated with winit 0.31 release.** This adds a method to winit's private delegate class `WinitApplicationDelegate`, as it is in winit 0.30. If the class is not found, a warning is logged and the app works as before.
   winit 0.31 lets an app register its own app delegate, which is the cleaner way, and this crate would then change to that.
-- **Needs a bundle,** see above. A bare binary receives nothing.
+- **Needs a bundle,** see above, this only works on MacOs .app bundles.
 - **Paths are as macOS gives them.** macOS may hand a file name over in decomposed unicode (`é` as `e` plus a combining accent). It is the
   same file and opens fine, but compare paths as text only after normalizing them yourself.
 - **Only `application:openURLs:`.** Files and URLs are both delivered through it on macOS 10.13 and later. The older
